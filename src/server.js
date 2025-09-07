@@ -10,16 +10,18 @@ if (process.env.NODE_ENV === "production") job.start();
 
 dotenv.config();
 
+
 const app = express();
 const PORT = process.env.PORT || 5001;
+
+app.use(rateLimiter);
+app.use(express.json());
 
 app.get("/api/health", (req, res) => {
     res.status(200).send({ status: "ok" });
 });
 app.use("/api/transactions", transactionsRoute);
 
-app.use(rateLimiter);
-app.use(express.json());
 
 
 initDB().then(() => {
