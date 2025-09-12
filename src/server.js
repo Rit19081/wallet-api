@@ -4,6 +4,7 @@ import { initDB } from "./config/db.js";
 import rateLimiter from "./middleware/rateLimiter.js";
 import transactionsRoute from "./routes/transactionsRoute.js";
 import job from "./config/cron.js";
+import cors from "cors"
 
 // Start the cron job
 if (process.env.NODE_ENV === "production") job.start();
@@ -16,6 +17,7 @@ const PORT = process.env.PORT || 5001;
 
 app.use(rateLimiter);
 app.use(express.json());
+app.use(cors())
 
 app.get("/api/health", (req, res) => {
     res.status(200).send({ status: "ok" });
